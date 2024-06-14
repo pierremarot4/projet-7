@@ -3,9 +3,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config;
 
-const keyToken = process.env.JWT_TOKEN_SECRET
-const keyExpiration = process.env.JWT_EXPIRES_IN;
-
 // Signup
 exports.userSignup = async(req, res) => {
     try {
@@ -33,16 +30,22 @@ exports.userLogin = async(req, res, next) => {
         if (!valid) {
             res.status(401).json({ error: 'Utilisateur ou mot de passe incorrecte' });
         }
-
+        
         res.status(200).json({
             userId: user._id,
             token: jwt.sign(
                 { userId: user._id },
-                keyToken,
-                { expiresIn: keyExpiration }
+                process.env.JWT_TOKEN_SECRET,
+                { expiresIn: process.env.JWT_EXPIRES_IN }
             )
         });
     } catch (error) {
         res.status(500).json({ error });
+        console.log(error)
     }
  };
+
+ //Logout
+ exports.userLogout = async(req, res, next) => {
+    res.status(200).json({})
+ }

@@ -1,8 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
+const bookRoutes = require('./routes/book.js');
+const userRoutes = require('./routes/user.js');
+require('dotenv').config();
 
-mongoose.connect('mongodb+srv://pierremarotpro:c6v9XGhJHm16TP2Z@cluster0.wiir3bn.mongodb.net/',
+mongoose.connect(process.env.MONGO,
   {   useNewUrlParser: true,
       useUnifiedTopology: true 
   })
@@ -24,15 +27,3 @@ mongoose.connect('mongodb+srv://pierremarotpro:c6v9XGhJHm16TP2Z@cluster0.wiir3bn
   app.use('/images', express.static('images'));
   
   module.exports = app;
-
-
-
-/*
-mongoose.connect(`mongodb+srv://UTILISATEUR_MONGO:${password}@leserveur.nnybhep.mongodb.net/?retryWrites=true&w=majority`,
-{ useNewUrlParser: true,
-  useUnifiedTopology: true })
-.then(() => console.log('Connexion à MongoDB réussie !'))
-.catch(() => console.log('Connexion à MongoDB échouée !'));
-*/
-
-//installer Dotenv (créer des fichier .env (sans nom)) pour remplacer le mdp par un fichier securisé lu par react
