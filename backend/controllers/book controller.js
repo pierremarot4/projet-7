@@ -50,7 +50,6 @@ exports.createRatingBook = async (req, res) => {
                 newRating = newRating + rating.grade;
             });
             book.averageRating = newRating/book.ratings.length;
-            // book.averageRating = book.ratings.reduce((accumulator, currentValue) => accumulator + currentValue.grade, 0) / book.ratings.length;
         
             await book.save();
             res.status(202).json(book);
@@ -84,8 +83,6 @@ exports.updateOneBook = async(req, res) => {
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename.replace(/\.jpeg|\.jpg|\.png/g, "_")}thumbnail.webp`,
     } : req.body;
 
-    // créer un 401 si l'user est pas identifié.
-
     const bookBefore = await Book.findOneAndUpdate({ _id: req.params.id, userId: req.auth.userId }, book);
     if (!bookBefore) {
         res.status(403).json({ message : 'Non autorisé'});
@@ -99,8 +96,6 @@ exports.updateOneBook = async(req, res) => {
 //Delete
 exports.deleteOneBook = async(req, res) => {
     try {
-
-        // créer un 401 si l'user est pas identifié.
 
         const book = await Book.findOne({ _id: req.params.id, userId: req.auth.userId });
         if (!book) {
